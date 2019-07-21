@@ -1,6 +1,5 @@
 import * as express from "express";
 import {Request, Response, NextFunction} from "express";
-import { runInNewContext } from "vm";
 
 const router = express.Router();
 
@@ -21,7 +20,20 @@ router
 
     })
     .get('/', (Request: Request, Response: Response) => {
-        const promise = Movie.find({});
+        const promise = Movie.aggregate([
+            {
+                $lookup: {
+                    from: 'directors',
+                    localField: 'director_id',
+                    foreignField: '_id',
+                    as: 'director'
+                }
+            },
+            {
+                $unwind: '$director'
+            }
+        ]);
+
         promise.then((data) =>{
             Response.json(data);
         }).catch((error) => {
@@ -55,7 +67,7 @@ router.get('/:movie_id', (Request: Request, Response: Response, next: NextFuncti
     }).put('/:movie_id', (Request: Request, Response: Response, next: NextFunction) => {
         const movie_id = Request.params.movie_id;
         const movie = Request.body;
-        const promise = Movie.findOneAndUpdate(movie_id, movie, {new : true});
+        const promise = Movie.findByIdAndUpdate(movie_id, movie, {new : true});
 
         promise.then((data) => {
             if(!data){

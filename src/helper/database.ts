@@ -3,7 +3,7 @@ import * as mongoose from "mongoose";
 const uri : string = "mongodb://furkanergun:12345678Bb@ds353457.mlab.com:53457/heroku_9ccrjms4"; 
 
 module.exports = () => {
-    mongoose.connect(uri, { useNewUrlParser: true });
+    mongoose.connect(uri, { useNewUrlParser: true ,useCreateIndex: true});
     mongoose.connection.on('open', () => {
       console.log("MongoDB: Database Connection Successful !");
     });
