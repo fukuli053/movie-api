@@ -10,4 +10,6 @@ module.exports = () => {
     mongoose.connection.on('error', (error) => {
       console.log("MongoDB: Error", error);
     });
+
+    mongoose.Promise = global.Promise;
 };

@@ -15,7 +15,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 //Routes
 app.use('/', indexRoute);
-app.use('/api/movie', movieRoute);
+app.use('/api/movies', movieRoute);
 
 app.listen(PORT, () => {
     console.log(`Uygulama ${PORT}'unda çalışıyor.`);
