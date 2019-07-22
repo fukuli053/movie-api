@@ -1,6 +1,7 @@
 import * as express from "express";
 import {Request, Response} from "express";
 import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -31,5 +32,43 @@ router.post('/register', (Request: Request, Response: Response) => {
     });
 
 });
+
+router.post('/login', (Request: Request, Response: Response) => {
+    const {email, password} = Request.body;
+    User.findOne({
+        email
+    },(error, user) => {
+        if(error)
+            throw error;
+        if(!user){
+            Response.json({
+                status: false,
+                message: "Authentication failed, user not found."
+            });
+        }else{
+            bcrypt.compare(password, user.password).then((result) => {
+                if(!result){
+                    Response.json({
+                        status: false,
+                        message: "Authentication failed, wrong password."
+                    });
+                }else{
+                    const payload = {
+                        email
+                    };
+                    const token = jwt.sign(payload, Request.app.get("api_secret_key"), {
+                        expiresIn: 720 //12 Hour
+                    });
+
+                    Response.json({
+                        status: true,
+                        token
+                    });
+
+                }
+            });
+        }
+    });
+})
 
 module.exports = router;
