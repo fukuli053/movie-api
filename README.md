@@ -29,5 +29,5 @@ API mantığını ve TypeScript ile NodeJS üzerinde uygulama geliştirmek için
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /register | `POST` | { username: 'foo', password:'1234' } | Create a new user. |
-| /authenticate | `POST` | { username: 'foo', password:'1234' } | Generate a token. |
+| /register | `POST` | { username: 'furkan', password:'1234', email: 'furkan@furkanergun.com'} | Create a new user. |
+| /authenticate | `POST` | { username: 'furkan', password:'1234' } | Generate a token. |

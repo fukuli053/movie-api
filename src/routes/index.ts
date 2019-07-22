@@ -30,8 +30,6 @@ router.post('/register', (Request: Request, Response: Response) => {
         });
     });
 
-    
-
 });
 
 module.exports = router;
